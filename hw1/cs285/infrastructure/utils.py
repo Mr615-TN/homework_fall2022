@@ -61,7 +61,9 @@ def sample_trajectories(env, policy, min_timesteps_per_batch, max_path_length, r
     paths = []
     while timesteps_this_batch < min_timesteps_per_batch:
 
-        TODO
+        path = sample_trajectory(env, policy, max_path_length, render)
+        paths.append(path)
+        timesteps_this_batch = get_pathlength(path)
 
     return paths, timesteps_this_batch
 
@@ -69,13 +71,14 @@ def sample_n_trajectories(env, policy, ntraj, max_path_length, render=False):
     """
         Collect ntraj rollouts.
 
-        TODO implement this function
+        implement this function
         Hint1: use sample_trajectory to get each path (i.e. rollout) that goes into paths
     """
     paths = []
-
-    TODO
-
+    n = 0
+    while n != ntraj:
+        paths.append(sample_trajectory(env, policy, max_path_length, render))
+        n += 1
     return paths
 
 ############################################
