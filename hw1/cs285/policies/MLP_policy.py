@@ -80,8 +80,9 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
         else:
             observation = obs[None]
 
-        # TODO return the action that the policy prescribes
-        raise NotImplementedError
+        #return the action that the policy prescribes
+        with torch.no_grad():
+            return ptu.to_numpy(self(ptu.from_numpy(observation)).sample())
 
     # update/train this policy
     def update(self, observations, actions, **kwargs):
@@ -93,7 +94,10 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
     # return more flexible objects, such as a
     # `torch.distributions.Distribution` object. It's up to you!
     def forward(self, observation: torch.FloatTensor) -> Any:
-        raise NotImplementedError
+        if self.discrete:
+            return distributions.Categorical(self.logits_na(observation))
+        else:
+            return distributions.MultivariateNormal(self.mean_net(observation), torch.diag(self.logstd.exp().square()))
 
 
 #####################################################
