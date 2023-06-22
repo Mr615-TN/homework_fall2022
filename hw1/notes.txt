@@ -1,0 +1,1 @@
+cd && cd python/venv/cs285 && . bin/activate && cd && cd python/drl/homework_fall2022/hw1
