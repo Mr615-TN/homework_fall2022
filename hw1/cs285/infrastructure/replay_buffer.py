@@ -80,7 +80,7 @@ class ReplayBuffer(object):
 
         return self.obs[random_indices], self.acs[random_indices], self.rews[random_indices], self.next_obs[random_indices], self.terminals[random_indices]
 
-    def sample_recent_data(self, batch_size=1):
+    def sample_recent_data(self, batch_size=512):
         return (
             self.obs[-batch_size:],
             self.acs[-batch_size:],
